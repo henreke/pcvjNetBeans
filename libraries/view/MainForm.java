@@ -75,8 +75,8 @@ public class MainForm extends javax.swing.JFrame {
 			temperaturas.updateTemperaturas();
 			//resistencias.updateResistencias();
 			//bomba.updateStatus();
-			txtVolTq1.setText(String.valueOf(HLT.getLevel()));
-			txtTempTq1.setText(String.valueOf(HLT.getTemperatura()));
+			txtVolTq1.setText(String.valueOf(HLT.getLevel())+"l");
+			txtTempTq1.setText(String.valueOf(HLT.getTemperatura())+"oC");
 			//temperaturaTQ2.setText(String.valueOf(temperaturas.getTemperatura(1).getTemperatura()));
 			//temperaturaTQ3.setText(String.valueOf(temperaturas.getTemperatura(2).getTemperatura()));
 			//medidorvazao1.setText(String.valueOf(vazoes.getVazao(0).getInstantaneo())+"l/m");
@@ -132,13 +132,18 @@ public class MainForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtVolTq1 = new javax.swing.JTextField();
         txtTempTq1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cerveja");
         setPreferredSize(new java.awt.Dimension(800, 480));
         setSize(new java.awt.Dimension(800, 480));
 
+        panelProcesso.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         tq1View.setOrientation(1);
+        panelProcesso.add(tq1View, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 45, 115, 150));
 
         panelVariaveisTq1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -178,45 +183,31 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(panelVariaveisTq1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTempTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout panelProcessoLayout = new javax.swing.GroupLayout(panelProcesso);
-        panelProcesso.setLayout(panelProcessoLayout);
-        panelProcessoLayout.setHorizontalGroup(
-            panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProcessoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tq1View, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(panelVariaveisTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(580, Short.MAX_VALUE))
-        );
-        panelProcessoLayout.setVerticalGroup(
-            panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProcessoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tq1View, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelVariaveisTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(291, Short.MAX_VALUE))
-        );
+        panelProcesso.add(panelVariaveisTq1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 50, -1, 70));
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valve.png"))); // NOI18N
+        panelProcesso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 223, 34, 60));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/fundo.png"))); // NOI18N
+        panelProcesso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 480));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(panelProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 793, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 336, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(63, Short.MAX_VALUE)
-                .addComponent(panelProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 110, Short.MAX_VALUE))
         );
 
         pack();
@@ -260,6 +251,8 @@ public class MainForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel panelProcesso;
     private javax.swing.JPanel panelVariaveisTq1;
     private javax.swing.JProgressBar tq1View;
