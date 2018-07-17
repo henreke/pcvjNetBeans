@@ -54,16 +54,11 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="tq1View" min="-2" pref="69" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Component id="panelVariaveisTq1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="580" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Component id="tq1" min="-2" pref="69" max="-2" attributes="0"/>
-                      <EmptySpace pref="686" max="32767" attributes="0"/>
-                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -71,21 +66,17 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="panelVariaveisTq1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="296" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tq1" min="-2" pref="103" max="-2" attributes="0"/>
-                      <EmptySpace pref="275" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="tq1View" min="-2" pref="103" max="-2" attributes="0"/>
+                      <Component id="panelVariaveisTq1" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace pref="291" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JProgressBar" name="tq1">
+        <Component class="javax.swing.JProgressBar" name="tq1View">
           <Properties>
             <Property name="orientation" type="int" value="1"/>
           </Properties>

@@ -6,6 +6,10 @@
 package view;
 
 import javax.swing.SwingConstants;
+import comunicacaoJava.ComunicacaoSerial;
+import processo.*;
+import java.util.TimerTask;
+import java.util.Timer;
 
 /**
  *
@@ -20,8 +24,97 @@ public class MainForm extends javax.swing.JFrame {
         initComponents();
         //tq1.setOrientation(SwingConstants.VERTICAL);
        // tq1.setSize(40, 40);
-        tq1.setValue(50);
+        tq1View.setValue(50);
+        inicializarPlanta();
     }
+    
+    //Codigo de COntrole da cerveja
+    //========================================================================
+    
+    ComunicacaoSerial comunicacao = new ComunicacaoSerial(Util.Configuracoes.portaSerial);
+    Tanque HLT, MLT, BK;
+    Temperaturas temperaturas;
+    Vazoes vazoes;
+    Timer timerUpdate;
+    private void inicializarPlanta(){
+        
+        try {
+            comunicacao.conectar();
+	} catch (Exception e) {
+	
+            e.printStackTrace();
+	}
+        
+        temperaturas = new Temperaturas(3);
+        temperaturas.setComunicacao(comunicacao);
+        vazoes = new Vazoes();
+        vazoes.setComunicacao(comunicacao);
+        HLT = new Tanque(vazoes.getVazao(0),vazoes.getVazao(1),temperaturas.getTemperatura(0),0,1,1);
+        HLT.setComunicacao(comunicacao);
+        
+        
+        
+        //=====Timer======
+        timerUpdate = new Timer();
+	timerUpdate.scheduleAtFixedRate(new RelogioUpdate(), 2000, 1000);
+        
+    }
+    
+    
+    class RelogioUpdate extends TimerTask{
+
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			try {
+			//valvulas.updateStatus();
+
+			//vazoes.updateVazoes();
+			System.out.println("Updating");
+			temperaturas.updateTemperaturas();
+			//resistencias.updateResistencias();
+			//bomba.updateStatus();
+			txtVolTq1.setText(String.valueOf(HLT.getLevel()));
+			txtTempTq1.setText(String.valueOf(HLT.getTemperatura()));
+			//temperaturaTQ2.setText(String.valueOf(temperaturas.getTemperatura(1).getTemperatura()));
+			//temperaturaTQ3.setText(String.valueOf(temperaturas.getTemperatura(2).getTemperatura()));
+			//medidorvazao1.setText(String.valueOf(vazoes.getVazao(0).getInstantaneo())+"l/m");
+			//medidorvazao2.setText(String.valueOf(vazoes.getVazao(1).getInstantaneo())+"l/m");
+			//medidorvazao3.setText(String.valueOf(vazoes.getVazao(2).getInstantaneo())+"l/m");
+
+			//resistencia1.setStroke(resistencias.getResistencia(0).getColorStatus());
+			//resistencia2.setStroke(resistencias.getResistencia(1).getColorStatus());
+			//resistencia3.setStroke(resistencias.getResistencia(2).getColorStatus());
+
+			//valorresistencia1.setText(String.valueOf((resistencias.getResistencia(0).getPotencia()/255)*100));
+			//valorresistencia2.setText(String.valueOf((resistencias.getResistencia(1).getPotencia()/255)*100));
+			//valorresistencia3.setText(String.valueOf((resistencias.getResistencia(2).getPotencia()/255)*100));
+			//bombaCirculoInterno.setFill(bomba.getColorStatus());
+			//calcAlturaTanques2(tq1_externo, tq1_interno, HLT);
+			//calcAlturaTanques2(tq2_externo, tq2_interno, MLT);
+			//calcAlturaTanques2(tq3_externo, tq3_interno, BK);
+			//if (etapas.etapacorrente != null)
+			//	etapas.etapacorrente.verificarExecutando();
+			
+			//Status do sistema
+			//if (HLT.Aquecendo()) {
+			//	statusAquecimento.setText(HLT.getMsgStatus());
+			//	tempo.setText(String.valueOf(HLT.getTempoDecorrido()));
+			
+			//}
+			//medidorvazao4.setText(String.valueOf(vazoes.getVazao(3))+"l/m");
+			//System.out.println(String.valueOf(vazoes.getVazao(0))+"l/m");
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+
+
+	}
+
+    ///=======================================================================
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,7 +126,7 @@ public class MainForm extends javax.swing.JFrame {
     private void initComponents() {
 
         panelProcesso = new javax.swing.JPanel();
-        tq1 = new javax.swing.JProgressBar();
+        tq1View = new javax.swing.JProgressBar();
         panelVariaveisTq1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -45,7 +138,7 @@ public class MainForm extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 480));
         setSize(new java.awt.Dimension(800, 480));
 
-        tq1.setOrientation(1);
+        tq1View.setOrientation(1);
 
         panelVariaveisTq1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -93,26 +186,20 @@ public class MainForm extends javax.swing.JFrame {
         panelProcessoLayout.setHorizontalGroup(
             panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelProcessoLayout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addContainerGap()
+                .addComponent(tq1View, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
                 .addComponent(panelVariaveisTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(580, Short.MAX_VALUE))
-            .addGroup(panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelProcessoLayout.createSequentialGroup()
-                    .addGap(15, 15, 15)
-                    .addComponent(tq1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(686, Short.MAX_VALUE)))
         );
         panelProcessoLayout.setVerticalGroup(
             panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelProcessoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelVariaveisTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(296, Short.MAX_VALUE))
-            .addGroup(panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelProcessoLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(tq1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(275, Short.MAX_VALUE)))
+                .addGroup(panelProcessoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tq1View, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelVariaveisTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -175,7 +262,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel panelProcesso;
     private javax.swing.JPanel panelVariaveisTq1;
-    private javax.swing.JProgressBar tq1;
+    private javax.swing.JProgressBar tq1View;
     private javax.swing.JTextField txtTempTq1;
     private javax.swing.JTextField txtVolTq1;
     // End of variables declaration//GEN-END:variables
