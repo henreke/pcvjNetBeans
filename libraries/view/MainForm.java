@@ -143,7 +143,7 @@ public class MainForm extends javax.swing.JFrame {
         panelProcesso.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tq1View.setOrientation(1);
-        panelProcesso.add(tq1View, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 45, 115, 150));
+        panelProcesso.add(tq1View, new org.netbeans.lib.awtextra.AbsoluteConstraints(323, 30, 103, 134));
 
         panelVariaveisTq1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
