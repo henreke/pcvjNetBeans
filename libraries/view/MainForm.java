@@ -24,7 +24,7 @@ public class MainForm extends javax.swing.JFrame {
         initComponents();
         //tq1.setOrientation(SwingConstants.VERTICAL);
        // tq1.setSize(40, 40);
-        tq1View.setValue(50);
+        tq3View.setValue(50);
         inicializarPlanta();
     }
     
@@ -126,13 +126,25 @@ public class MainForm extends javax.swing.JFrame {
     private void initComponents() {
 
         panelProcesso = new javax.swing.JPanel();
+        tq3View = new javax.swing.JProgressBar();
         tq1View = new javax.swing.JProgressBar();
+        tq2View = new javax.swing.JProgressBar();
         panelVariaveisTq1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtVolTq1 = new javax.swing.JTextField();
         txtTempTq1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        valvula6 = new javax.swing.JLabel();
+        valvula3 = new javax.swing.JLabel();
+        valvula0 = new javax.swing.JLabel();
+        valvula1 = new javax.swing.JLabel();
+        valvula5 = new javax.swing.JLabel();
+        valvula2 = new javax.swing.JLabel();
+        valvula4 = new javax.swing.JLabel();
+        valvula7 = new javax.swing.JLabel();
+        pump = new javax.swing.JLabel();
+        txtvazao2 = new javax.swing.JTextField();
+        txtvazao1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -142,8 +154,16 @@ public class MainForm extends javax.swing.JFrame {
 
         panelProcesso.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        tq3View.setOrientation(1);
+        tq3View.setValue(40);
+        panelProcesso.add(tq3View, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 243, 103, 134));
+
         tq1View.setOrientation(1);
         panelProcesso.add(tq1View, new org.netbeans.lib.awtextra.AbsoluteConstraints(323, 30, 103, 134));
+
+        tq2View.setOrientation(1);
+        tq2View.setValue(20);
+        panelProcesso.add(tq2View, new org.netbeans.lib.awtextra.AbsoluteConstraints(151, 245, 103, 134));
 
         panelVariaveisTq1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -160,17 +180,16 @@ public class MainForm extends javax.swing.JFrame {
         panelVariaveisTq1Layout.setHorizontalGroup(
             panelVariaveisTq1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelVariaveisTq1Layout.createSequentialGroup()
-                .addGroup(panelVariaveisTq1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelVariaveisTq1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelVariaveisTq1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtVolTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addComponent(txtVolTq1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelVariaveisTq1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTempTq1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(txtTempTq1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelVariaveisTq1Layout.setVerticalGroup(
             panelVariaveisTq1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,11 +205,50 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelProcesso.add(panelVariaveisTq1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 50, -1, 70));
+        panelProcesso.add(panelVariaveisTq1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 30, 120, 70));
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valve.png"))); // NOI18N
-        panelProcesso.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 223, 34, 60));
+        valvula6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula6, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 209, 34, 60));
+
+        valvula3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula3, new org.netbeans.lib.awtextra.AbsoluteConstraints(329, 211, 34, 60));
+
+        valvula0.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula0, new org.netbeans.lib.awtextra.AbsoluteConstraints(245, -5, 34, 60));
+
+        valvula1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(324, 159, 34, 60));
+
+        valvula5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula5, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 136, 34, 60));
+
+        valvula2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(296, 311, 34, 60));
+
+        valvula4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula4, new org.netbeans.lib.awtextra.AbsoluteConstraints(451, 294, 34, 60));
+
+        valvula7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        valvula7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png"))); // NOI18N
+        panelProcesso.add(valvula7, new org.netbeans.lib.awtextra.AbsoluteConstraints(521, 325, 34, 60));
+
+        pump.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/pumpOff.png"))); // NOI18N
+        panelProcesso.add(pump, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 327, -1, -1));
+
+        txtvazao2.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        txtvazao2.setText("15l/m");
+        panelProcesso.add(txtvazao2, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 291, 30, -1));
+
+        txtvazao1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        txtvazao1.setText("15l/m");
+        panelProcesso.add(txtvazao1, new org.netbeans.lib.awtextra.AbsoluteConstraints(288, 156, 30, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/fundo.png"))); // NOI18N
         panelProcesso.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 480));
@@ -251,12 +309,24 @@ public class MainForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel panelProcesso;
     private javax.swing.JPanel panelVariaveisTq1;
+    private javax.swing.JLabel pump;
     private javax.swing.JProgressBar tq1View;
+    private javax.swing.JProgressBar tq2View;
+    private javax.swing.JProgressBar tq3View;
     private javax.swing.JTextField txtTempTq1;
     private javax.swing.JTextField txtVolTq1;
+    private javax.swing.JTextField txtvazao1;
+    private javax.swing.JTextField txtvazao2;
+    private javax.swing.JLabel valvula0;
+    private javax.swing.JLabel valvula1;
+    private javax.swing.JLabel valvula2;
+    private javax.swing.JLabel valvula3;
+    private javax.swing.JLabel valvula4;
+    private javax.swing.JLabel valvula5;
+    private javax.swing.JLabel valvula6;
+    private javax.swing.JLabel valvula7;
     // End of variables declaration//GEN-END:variables
 }
