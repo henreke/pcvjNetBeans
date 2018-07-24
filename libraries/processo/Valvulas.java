@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javax.swing.JLabel;
 
 public class Valvulas {
 
@@ -22,9 +23,9 @@ public class Valvulas {
 	ComunicacaoSerial comunicacao = new ComunicacaoSerial(Util.Configuracoes.portaSerial);
 
 
-	public void addValvula(int numero,int tipo, Rectangle atuador, Polygon corpo1, Polygon corpo2, Line linha) {
+	public void addValvula(int numero,int tipo, JLabel corpo) {
 
-		valvulas.add(new Valvula(numero,tipo,atuador,corpo1,corpo2,linha));
+		valvulas.add(new Valvula(numero,tipo,corpo));
 	}
 	public void setComunicacao(ComunicacaoSerial comunicacao)
 	{
@@ -61,15 +62,10 @@ public class Valvula {
 	private int status;
 	private int numero;
 	private int tipo;
-	Rectangle atuador;
-	Polygon corpo1,corpo2;
-	Line linha;
-	public Valvula(int numero,int tipo, Rectangle atuador, Polygon corpo1, Polygon corpo2, Line linha) {
+	JLabel corpo;
+	public Valvula(int numero,int tipo, JLabel corpo) {
 		this.numero = numero;
-		this.atuador = atuador;
-		this.corpo1 = corpo1;
-		this.corpo2 = corpo2;
-		this.linha = linha;
+		this.corpo = corpo;
 		this.tipo = tipo;
 	}
 	public void setStatus(int status) {
@@ -82,8 +78,7 @@ public class Valvula {
 		return numero;
 	}
 	public void abrir() {
-		atuador.setFill(Color.GREEN);
-		linha.setFill(Color.GREEN);
+		corpo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveOpen.png"))); // NOI18N
 		try {
 			comunicacao.abrirValvula(numero);
 		} catch (IOException e) {
@@ -93,8 +88,7 @@ public class Valvula {
 	}
 
 	public void fechar() {
-		atuador.setFill(Color.RED);
-		linha.setFill(Color.RED);
+		corpo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png")));
 		try {
 			comunicacao.fecharValvula(numero);
 		} catch (IOException e) {
@@ -106,15 +100,9 @@ public class Valvula {
 	void checkStatus() {
 		if ((status == Valvulas.ABERTA) ||(tipo == Valvulas.SOLENOIDE && status == Valvulas.ABRINDO)) {
 			//System.out.println("Aberta");
-			corpo1.setFill(Color.GREEN);
-			corpo2.setFill(Color.GREEN);
-			atuador.setFill(Color.GREEN);
-			linha.setStroke(Color.GREEN);
+			corpo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveOpen.png")));
 		} else if ((status == Valvulas.FECHADA) || (tipo == Valvulas.SOLENOIDE && status == Valvulas.FECHANDO)) {
-			corpo1.setFill(Color.RED);
-			corpo2.setFill(Color.RED);
-			atuador.setFill(Color.RED);
-			linha.setStroke(Color.RED);
+			corpo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/valveClosed.png")));
 		}
 	}
 

@@ -21,6 +21,7 @@ public class Tanque {
 
 	private int numero;
 	private float level;
+        private float calibracaoLevel = 20;
 	private Temperatura temperatura;
 	private Vazao vazaoFill, vazaoDrain;
 	private int tempoAquecimento, tempoDecorridoAquecimento;
@@ -50,6 +51,9 @@ public class Tanque {
 		//timerUpdate = new Timer();
 		//timerUpdate.scheduleAtFixedRate(new relogioUpdate(), 2000, 5000);
 	}
+        public void setCalibracaoLevel(float fator){
+            this.calibracaoLevel = fator;
+        }
 	public void setComunicacao(ComunicacaoSerial comunicacao) {
 		this.comunicacao = comunicacao;
 	}
@@ -60,22 +64,22 @@ public class Tanque {
 		return tempoDecorridoAquecimento;
 	}
 	public void aquecer(int tempo, float temperatura){
-		resistencia.ligar();
-		tempoDecorridoAquecimento = 0;
-		tempoAquecimento = tempo;
-		timer = new Timer();
-        timer.scheduleAtFixedRate(new relogio(),0, 1000);
-        setTemperaturaAtual = temperatura;
-		atingiuTemperatura = false;
-        msgStatus = "Aquecendo o Tanque a temperatura de "+ String.valueOf(temperatura)+ "por "+String.valueOf(tempo)+"segundos";
-        pid.setSetPoint(temperatura);
-        try {
-			comunicacao.sendPID(pid);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        alternarStatusAquecimento(true);
+            resistencia.ligar();
+            tempoDecorridoAquecimento = 0;
+            tempoAquecimento = tempo;
+            timer = new Timer();
+            timer.scheduleAtFixedRate(new relogio(),0, 1000);
+            setTemperaturaAtual = temperatura;
+                    atingiuTemperatura = false;
+            msgStatus = "Aquecendo o Tanque a temperatura de "+ String.valueOf(temperatura)+ "por "+String.valueOf(tempo)+"segundos";
+            pid.setSetPoint(temperatura);
+            try {
+                            comunicacao.sendPID(pid);
+                    } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                    }
+            alternarStatusAquecimento(true);
 
 	}
 	public void setPIdNumber(int n)
@@ -163,7 +167,7 @@ public class Tanque {
 	public void encher(float volume){
 
 		try {
-			comunicacao.sendEncher(vazaoFill.getNsensor(), volume, valvulaEncher);
+			comunicacao.sendEncher(vazaoFill.getNsensor(), volume*calibracaoLevel, valvulaEncher);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,7 +180,7 @@ public class Tanque {
 	}
 
 	public float getLevel() {
-		return vazaoFill.getAcumulado();
+		return vazaoFill.getAcumulado()/calibracaoLevel;
 	}
 	public int getTempoDecorridoAquecimento(){
 		return tempoDecorridoAquecimento;

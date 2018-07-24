@@ -36,13 +36,15 @@ public class Vazoes {
 
 	public void updateVazoes() {
 		float[][] Vvazoes = comunicacao.getFlows();
-		if (Vvazoes == null)
-			return;
+		if (Vvazoes == null){
+                    System.out.println("Vazao nula");
+                    return;
+                }
 		for (int i=0;i<Nmedidores;i++){
 			vazoes.get(i).setInstAcumulado(Vvazoes[i][0], Vvazoes[i][1]);
-//			System.out.println("VAzao e acumulado");
-//			System.out.println(vazoes.get(i).getInstantaneo());
-//			System.out.println(vazoes.get(i).getAcumulado());
+			//System.out.println("VAzao e acumulado");
+			///System.out.println(vazoes.get(i).getInstantaneo());
+			//System.out.println(vazoes.get(i).getAcumulado());
 		}
 	}
 	public class Vazao{

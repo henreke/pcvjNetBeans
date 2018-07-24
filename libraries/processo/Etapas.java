@@ -91,6 +91,7 @@ public class Etapas{
 		public void setVolumeEncher(float volumeEncher){
 			this.volumeEncher = volumeEncher;
 		}
+                @Override
 		public void executarEtapa(){
 
 			executando = true;
@@ -99,10 +100,10 @@ public class Etapas{
 
 
 		}
-
+                @Override
 		public boolean verificarConcluida(){
 
-			if (HLT.getLevelMedidorVazao() >= volumeEncher){
+			if (HLT.getLevel() >= volumeEncher){
 				executando = false;
 				concluida = true;
 			}
@@ -125,17 +126,19 @@ public class Etapas{
 			this.HLT = HLT;
 		}
 
+                @Override
 		public void executarEtapa(){
-			HLT.addRampaAquecimento(100, temperaturaAquecer);
+			HLT.addRampaAquecimento(0, temperaturaAquecer);
 			HLT.aquecer(HLT.getRampa(0));
 			executando = true;
 			concluida = false;
 		}
-
+                @Override
 		public boolean verificarConcluida(){
 			if (HLT.getTemperatura() >= temperaturaAquecer){
 				executando = false;
 				concluida = true;
+                                
 			}
 
 			return concluida;
@@ -212,11 +215,13 @@ public class Etapas{
 			valvulaDescarga.abrir();
 
 			//Aguardar succao abrir
-			while(valvulaSuccao.isClosed());
+			//while(valvulaSuccao.isClosed());
 
 			bomba.setMedidor(medidorVazao);
 			bomba.setVazao(setVazao);
 			bomba.ligar();
+                        MLT.addRampaAquecimento(0, 30);
+                        MLT.addRampaAquecimento(0, 33);
 			MLT.startRampaAquecimento();
 
 
@@ -258,7 +263,7 @@ public class Etapas{
 			concluida = false;
 			saidaMLT.abrir();
 			entradaBK.abrir();
-			while(saidaMLT.isClosed());
+			//while(saidaMLT.isClosed());
 			medidorBK.resetAcumulado();
 			bomba.setMedidor(medidorBK);
 			bomba.setVazao(setVazao);
