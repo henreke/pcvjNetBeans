@@ -501,7 +501,15 @@ public class MainForm extends javax.swing.JFrame {
         //etapas.iniciaEtapa1(HLT, 40);
         //etapas.iniciaEtapa2(HLT, 35);
         //etapas.iniciaEtapa3(HLT, MLT, 20);
-        etapas.iniciaEtapa4(HLT, MLT, TOP_ALIGNMENT, valvulas.getValvula(2), valvulas.getValvula(3), bomba, vazoes.getVazao(2), 8);
+        //etapas.iniciaEtapa4(HLT, MLT, TOP_ALIGNMENT, valvulas.getValvula(2), valvulas.getValvula(3), bomba, vazoes.getVazao(2), 8);
+       // etapas.iniciaEtapa5A( MLT, BK,/*volume trans*/ 20, bomba, vazoes.getVazao(1), 8, valvulas.getValvula(2),
+       //          valvulas.getValvula(6));
+       //etapas.iniciaEtapa5B(HLT, MLT, BK, /*volume trans*/ 20, bomba,/*vazaoBOmba*/ vazoes.getVazao(1), /*vazaoHLT*/vazoes.getVazao(0),
+       //        /*saidaHLT*/ valvulas.getValvula(1) ,/* saidaMLT*/ valvulas.getValvula(2), /*entradaBK*/ valvulas.getValvula(6));
+       
+       //etapas.iniciaEtapa6(BK, /*temperaturaAquecer*/ 32, /*tempoAquecimento em minutos*/ 0.5f);
+       etapas.iniciaEtapa7(BK, /*saidaBK*/ valvulas.getValvula(7), /*entradaBK*/ valvulas.getValvula(6),bomba,
+               /*tempoCirculacao*/ 180,/*setVazao*/8, /*medidorBK*/ vazoes.getVazao(1));
     }//GEN-LAST:event_btEtapa1ActionPerformed
 
     private void btFinalizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizaActionPerformed

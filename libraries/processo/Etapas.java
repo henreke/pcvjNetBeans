@@ -2,6 +2,8 @@ package processo;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import processo.Valvulas.Valvula;
 import processo.Vazoes.Vazao;
@@ -56,6 +58,42 @@ public class Etapas{
 		etapacorrente.executarEtapa();
 		
 	}
+        public void iniciaEtapa5A(Tanque MLT, Tanque BK, float volumeTransferir,Bomba bomba, Vazao medidorBK,float setVazao,
+                Valvula saidaMLT, Valvula entradaBK){
+            etapacorrente = new Etapa5A();
+            ((Etapa5A)etapacorrente).setBomba(bomba);
+            ((Etapa5A)etapacorrente).setTanques(MLT, BK);
+            ((Etapa5A)etapacorrente).setMedidorVazao(medidorBK);
+            ((Etapa5A)etapacorrente).setValvula(saidaMLT, entradaBK);
+            ((Etapa5A)etapacorrente).setVazao(setVazao);
+            etapacorrente.executarEtapa();
+        }
+        public void iniciaEtapa5B(Tanque HLT,Tanque MLT, Tanque BK, float volumeTransferir,Bomba bomba, Vazao medidorBK, Vazao medidorHLT,
+                Valvula saidaHLT,Valvula saidaMLT, Valvula entradaBK){
+            etapacorrente = new Etapa5B();
+            ((Etapa5B)etapacorrente).setBomba(bomba);
+            ((Etapa5B)etapacorrente).setTanques(HLT,MLT, BK);
+            ((Etapa5B)etapacorrente).setMedidorVazao(medidorBK, medidorHLT);
+            ((Etapa5B)etapacorrente).setValvula(saidaMLT, entradaBK, saidaHLT);
+            etapacorrente.executarEtapa();
+        }
+        public void iniciaEtapa6(Tanque BK, float temperaturaAquecer, float tempoMinutos){
+            etapacorrente = new Etapa6();
+            ((Etapa6)etapacorrente).setBK(BK);
+            ((Etapa6)etapacorrente).setTemperaturaAquecer(temperaturaAquecer);
+            ((Etapa6)etapacorrente).setTempoFervura(tempoMinutos);
+            etapacorrente.executarEtapa();
+        }
+        public void iniciaEtapa7(Tanque BK,Valvula saidaBK, Valvula entradaBK, Bomba bomba, float tempo,float setVazao, Vazao medidorBK){
+            etapacorrente = new Etapa7();
+            ((Etapa7)etapacorrente).setTanques(BK);
+            ((Etapa7)etapacorrente).setMedidorVazao(medidorBK);
+            ((Etapa7)etapacorrente).setValvulas(saidaBK, entradaBK);
+            ((Etapa7)etapacorrente).setTempo(tempo);
+            ((Etapa7)etapacorrente).setBomba(bomba);
+            ((Etapa7)etapacorrente).setVazao(setVazao);
+            etapacorrente.executarEtapa();
+        }
 	public class Etapa{
 
 		public int numero;
@@ -243,12 +281,13 @@ public class Etapas{
 	public class Etapa5A extends Etapa{
 		private Tanque MLT, BK;
 		private Bomba bomba;
-		private Vazao medidorBK;
+		private Vazao medidorBK, medidorHLT;
 		private Valvula saidaMLT, entradaBK;
 		private float setVazao, volumeAserTransferido;
 		public void setTanques(Tanque MLT, Tanque BK) {
 			this.MLT = MLT;
 			this.BK = BK;
+                       
 		}
 		public void setBomba(Bomba bomba) {
 			this.bomba = bomba;
@@ -257,25 +296,56 @@ public class Etapas{
 		public void setMedidorVazao(Vazao medidorBK) {
 			this.medidorBK = medidorBK;
 		}
-
+                public void setMedidorHLT(Vazao medidorHLT){
+                    this.medidorHLT = medidorHLT;
+                }
+                public void setVolumeAserTransferido(float volumeAserTransferido){
+                    this.volumeAserTransferido = volumeAserTransferido;
+                }
+                public void setValvula( Valvula saidaMLT, Valvula entradaBK){
+                   
+                    this.saidaMLT = saidaMLT;
+                    this.entradaBK = entradaBK;
+                }
+                public void setVazao(float setVazao){
+                    this.setVazao = setVazao;
+                }
+                @Override
 		public void executarEtapa() {
-			executando = true;
-			concluida = false;
-			saidaMLT.abrir();
-			entradaBK.abrir();
-			//while(saidaMLT.isClosed());
-			medidorBK.resetAcumulado();
-			bomba.setMedidor(medidorBK);
-			bomba.setVazao(setVazao);
-			bomba.ligar();
+                    try {
+                        executando = true;
+                        concluida = false;
+                        saidaMLT.abrir();
+                        Thread.sleep(500);
+                        entradaBK.abrir();
+                        Thread.sleep(500);
+                        //saidaHLT.abrir();
+                        //Thread.sleep(500);
+                        //while(saidaMLT.isClosed());
+                        //medidorBK.resetAcumulado();
+                        
+                        bomba.setMedidor(medidorBK);
+                        bomba.setVazao(setVazao);
+                        Thread.sleep(500);
+                        bomba.ligar();
+                        Thread.sleep(500);
+                        volumeAserTransferido+=BK.getLevel();
+                        BK.encher(volumeAserTransferido);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Etapas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 		}
-
+                @Override
 		public boolean verificarConcluida() {
-			if (medidorBK.getAcumulado() >= volumeAserTransferido) {
-				executando = false;
-				concluida = true;
-			}
-			return concluida;
+                        
+                    if (BK.getLevel()>= volumeAserTransferido) {
+                        bomba.desligar();
+                        executando = false;
+                        concluida = true;
+                    }
+                    
+                        
+                    return concluida;
 		}
 
 	}
@@ -284,8 +354,8 @@ public class Etapas{
 		private Tanque HLT, MLT, BK;
 		private Bomba bomba;
 		private Vazao medidorBK, medidorHLT;
-		private Valvula saidaMLT, entradaBK;
-		private float setVazao, volumeAserTransferido1;
+		private Valvula saidaMLT, entradaBK,saidaHLT;
+		private float volumeAserTransferido1, volumeInicialHLT = 0;
 		public void setTanques(Tanque HLT, Tanque MLT, Tanque BK) {
 			this.HLT = HLT;
 			this.MLT = MLT;
@@ -294,33 +364,68 @@ public class Etapas{
 		public void setBomba(Bomba bomba) {
 			this.bomba = bomba;
 		}
-
+                public void setValvula(Valvula saidaMLT, Valvula entradaBK, Valvula saidaHLT){
+                    this.saidaHLT = saidaHLT;
+                    this.saidaMLT = saidaMLT;
+                    this.entradaBK = entradaBK;
+                }
 		public void setMedidorVazao(Vazao medidorBK, Vazao medidorHLT) {
 			this.medidorBK = medidorBK;
 			this.medidorHLT = medidorHLT;
 		}
-
+                public void setVolumeASerTransferido(float volumeASerTransferido){
+                    this.volumeAserTransferido1 = volumeASerTransferido;
+                }
+                @Override
 		public void executarEtapa() {
-			executando = true;
-			concluida = false;
-			saidaMLT.abrir();
-			entradaBK.abrir();
-			while(saidaMLT.isClosed());
-			medidorBK.resetAcumulado();
-			bomba.setMedidor(medidorBK);
-			bomba.setVazao(setVazao);
-			bomba.ligar();
+                    try {
+                        executando = true;
+                        concluida = false;
+                        volumeInicialHLT = HLT.getLevel();
+                        volumeAserTransferido1 = volumeInicialHLT - volumeAserTransferido1;
+                        saidaMLT.abrir();
+                        Thread.sleep(500);
+                        entradaBK.abrir();
+                        Thread.sleep(500);
+                        saidaHLT.abrir();
+                        Thread.sleep(1000);
+                        bomba.setMedidor(medidorBK);
+                        bomba.setVazao(10);
+                        Thread.sleep(500);
+                        bomba.ligar();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Etapas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
 
 		}
-
+                   @Override
+                   public boolean verificarConcluida() {
+                        
+                    if (HLT.getLevel()<= volumeAserTransferido1) {
+                        try {
+                            bomba.desligar();
+                            Thread.sleep(500);
+                            saidaHLT.fechar();
+                            executando = false;
+                            concluida = true;
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Etapas.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    else
+                        bomba.setVazao(medidorHLT.getInstantaneo());
+                    
+                        
+                    return concluida;
+		}
 	}
 
 	public class Etapa6 extends Etapa{
 
 		private Tanque BK;
 		private float temperaturaAquecer;
-		private float tempoFervura;
+		private int tempoFervura;
 		private boolean tempAtigida;
 		private long tempoInicial = 0;
 		public void setTemperaturaAquecer(float temperaturaAquecer){
@@ -328,20 +433,21 @@ public class Etapas{
 		}
 
 		public void setTempoFervura(float tempoFervura) {
-			this.tempoFervura = tempoFervura*1000;
+			this.tempoFervura = (int)tempoFervura*1000;
 		}
 
 		public void setBK(Tanque BK){
 			this.BK = BK;
 		}
-
+                @Override
 		public void executarEtapa(){
-			BK.addRampaAquecimento(10000, temperaturaAquecer);
+			BK.addRampaAquecimento(tempoFervura, temperaturaAquecer);
+                        BK.startRampaAquecimento();
 			executando = true;
 			concluida = false;
 			tempAtigida = false;
 		}
-
+                @Override
 		public boolean verificarConcluida(){
 			if ((BK.getTemperatura() >= temperaturaAquecer) || (tempAtigida)){
 				if (!tempAtigida) {
@@ -364,8 +470,8 @@ public class Etapas{
 		private Bomba bomba;
 		private Vazao medidorBK;
 		private Valvula saidaBk, entradaBK;
-		private float setVazao;
-		private long tempo=180000, tempoInical = 0;
+		private float setVazao = 8;
+		private long tempo=180, tempoInical = 0;
 		public void setTanques(Tanque BK) {
 
 			this.BK = BK;
@@ -381,31 +487,46 @@ public class Etapas{
 			this.medidorBK = medidorBK;
 		}
 
-		public void setTempo(long tempo) {
-			this.tempo = tempo*1000;
+		public void setTempo(float tempo) {
+			this.tempo = (long)tempo*1000;
 		}
-
+                public void setVazao(float setVazao){
+                    this.setVazao =  setVazao;
+                }
+                @Override
 		public void executarEtapa() {
-			executando = true;
-			concluida = false;
-			saidaBk.abrir();
-			entradaBK.abrir();
-			while(saidaBk.isClosed());
-			medidorBK.resetAcumulado();
-			bomba.setMedidor(medidorBK);
-			bomba.setVazao(setVazao);
-			tempoInical = System.currentTimeMillis();
-			bomba.ligar();
+                    try {
+                        executando = true;
+                        concluida = false;
+                        saidaBk.abrir();
+                        Thread.sleep(500);
+                        entradaBK.abrir();
+                        Thread.sleep(500);
+                        bomba.setMedidor(medidorBK);
+                        Thread.sleep(500);
+                        bomba.setVazao(setVazao);
+                        Thread.sleep(500);
+                        tempoInical = System.currentTimeMillis();
+                        bomba.ligar();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Etapas.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 		}
-
+                @Override
 		public boolean verificarConcluida() {
 			if ((System.currentTimeMillis()-tempoInical) >= tempo) {
-				executando = false;
-				concluida = true;
-				
-				bomba.desligar();
-				saidaBk.fechar();
-				entradaBK.fechar();
+                            try {
+                                executando = false;
+                                concluida = true;
+                                
+                                bomba.desligar();
+                                Thread.sleep(500);
+                                saidaBk.fechar();
+                                Thread.sleep(500);
+                                entradaBK.fechar();
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(Etapas.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 			}
 			return concluida;
 		}

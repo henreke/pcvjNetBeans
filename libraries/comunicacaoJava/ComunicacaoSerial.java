@@ -151,7 +151,8 @@ public class ComunicacaoSerial {
     	
     	String retorno = vazoes;
 		if (retorno.length() > 1) {
-			if (retorno.charAt(0)=='$' && retorno.charAt(retorno.length() - 1)=='$') {
+                   
+			if (retorno.charAt(0)=='$' && retorno.charAt(retorno.length() - 2)=='$') {
 				retorno = retorno.substring(2, retorno.length()-2);
 				String[] valores = retorno.split("#");
 				float[][] valoresretorno = new float[valores.length/2][2];
